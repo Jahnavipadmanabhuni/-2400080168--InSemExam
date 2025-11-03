@@ -1,23 +1,41 @@
-import React from 'react';
-import StudentInfo from './components/StudentInfo';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
-/**
- * The main App component.
- * This component acts as the root of your application,
- * setting up the main layout and rendering the StudentInfo component.
- */
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const student = {
+    name: "Padmanabhuni Jahnavi",
+    regNo: "2400080168",
+    program: "B.Tech AI & DS",
+    mobile: "6281079123",
+  };
+
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Responsive Student Card</h1>
-        <p>Resize the browser window to see the layout change.</p>
-      </header>
-      <main>
-        {/* You can reuse the component multiple times */}
-        <StudentInfo />
-      </main>
+    <div className="container">
+      <h1>Student Info</h1>
+
+      <div className={`student-card ${isMobile ? "vertical" : "horizontal"}`}>
+        <div className="student-field">
+          <strong>Name:</strong> {student.name}
+        </div>
+        <div className="student-field">
+          <strong>Reg No:</strong> {student.regNo}
+        </div>
+        <div className="student-field">
+          <strong>Program:</strong> {student.program}
+        </div>
+        <div className="student-field">
+          <strong>Mobile:</strong> {student.mobile}
+        </div>
+      </div>
     </div>
   );
 }
